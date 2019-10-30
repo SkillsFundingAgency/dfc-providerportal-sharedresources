@@ -1,5 +1,6 @@
 variables:
-    ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates' 
+    ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
+    SolutionBaseName: 'DFC.CourseDirectory.SharedResources'
 
 resources:
   repositories:
@@ -31,8 +32,8 @@ jobs:
       SourceFolder: '$(ArmTemplateRoot)\'
       TargetFolder: $(build.artifactstagingdirectory)/Azure/ArmTemplates  
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: Azure'
+    displayName: 'Publish Artifact: $(SolutionBaseName)'
     inputs:
-      pathtoPublish: $(build.artifactstagingdirectory)/Azure
-      artifactName: Azure
+      pathtoPublish: $(build.artifactstagingdirectory)/
+      artifactName: $(SolutionBaseName)
       publishLocation: container

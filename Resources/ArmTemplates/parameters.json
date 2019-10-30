@@ -1,0 +1,24 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "projectPrefix": {
+            "value": "__providerPortalPrefix__"
+        },
+        "storageAccountName": {
+            "value": "__providerPortalStorgeAccName__"
+        },
+        "appServicePlanInstances": {
+            "value": __aspInstances__
+        },
+        "appServicePlanSize": {
+            "value": "__aspPricingTierSize__"
+        },
+        "aseHostingEnvironmentName": {
+            "value": "__AseHostingEnvironmentName__"
+        },
+        "aseResourceGroup": {
+            "value": "__aseResourceGroup__"
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "projectPrefix": {
+            "value": "dfc-foo-cd"
+        },
+        "storageAccountName": {
+            "value": "dfcfoocdstr"
+        },
+        "appServicePlanInstances": {
+            "value": 1
+        },
+        "appServicePlanSize": {
+            "value": "1"
+        },
+        "aseHostingEnvironmentName": {
+            "value": ""
+        },
+        "aseResourceGroup": {
+            "value": ""
+        }
+    }
+}

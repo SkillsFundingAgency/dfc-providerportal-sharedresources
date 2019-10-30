@@ -1,0 +1,39 @@
+variables:
+    ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
+    SolutionBaseName: 'DFC.CourseDirectory.SharedResources'
+
+resources:
+  repositories:
+  - repository: self
+  - repository: dfc-devops
+    type: github
+    name: SkillsFundingAgency/dfc-devops
+    ref: refs/tags/v1.6.5
+    endpoint: 'GitHub (ESFA)'
+
+jobs:
+
+#Build and test resources
+- template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
+  parameters:
+    ArmTemplateRoot: $(ArmTemplateRoot)
+
+#Publish templates
+- job: BuildDotNetCore
+  displayName: Build-DotNetCore
+  dependsOn: TestArmTemplate
+  pool:
+    name: DAS - Continuous Deployment
+
+  steps:
+  - task: CopyFiles@2
+    displayName: 'Copy Arm Templates to Staging'
+    inputs:
+      SourceFolder: '$(ArmTemplateRoot)\'
+      TargetFolder: $(build.artifactstagingdirectory)/Azure/ArmTemplates  
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: $(SolutionBaseName)'
+    inputs:
+      pathtoPublish: $(build.artifactstagingdirectory)/
+      artifactName: $(SolutionBaseName)
+      publishLocation: container

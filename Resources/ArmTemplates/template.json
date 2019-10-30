@@ -1,0 +1,221 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "projectPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Prefix for all resources created for the project (except storage account, see below). Should be in the format dfc-env-proj"
+            }
+        },
+        "storageAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the project storage account (as it follows a different naming convention)"
+            }
+        },
+        "appServicePlanSize": {
+            "type": "string",
+            "defaultValue": "1",
+            "metadata": {
+                "description": "Size of the instances in the app service plan"
+            },
+            "allowedValues": [
+                "1",
+                "2",
+                "3"
+            ]
+        },
+        "appServicePlanInstances": {
+            "type": "int",
+            "defaultValue": 1,
+            "metadata": {
+                "description": "Number of instances in the app service plan"
+            }
+        },
+        "aseHostingEnvironmentName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Optional App Service Environment for the app service to exist within. If not supplied creates a stand alone app service plan."
+            }
+        },
+        "aseResourceGroup": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Resource group the App Service Environment belongs to - only required if aseHostingEnvironmentName specified"
+            }
+        }
+    },
+    "variables": {
+        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
+        "appServiceName": "[concat(parameters('projectPrefix'),'-as')]",
+        "appServicePlanName": "[concat(parameters('projectPrefix'),'-shared-asp')]",
+        "blobStorageSettingsContainerName": "provider-files",
+        "cosmosDbSQLName": "[concat(parameters('projectPrefix'),'-cdb')]",
+        "azureSearchName": "[concat(parameters('projectPrefix'),'-sch')]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2017-05-10",
+            "name": "courseDirectoryStorage",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'storage-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[parameters('storageAccountName')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "courseDirectoryStorageContainer",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'Storage/storage-account-arm-container.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[parameters('storageAccountName')]"
+                    },
+                    "storageContainerName": {
+                        "value": "[variables('blobStorageSettingsContainerName')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "courseDirectoryAppServicePlan",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'app-service-plan.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServicePlanName": {
+                        "value": "[variables('appServicePlanName')]"
+                    },
+                    "aspSize": {
+                        "value": "[parameters('appServicePlanSize')]"
+                    },
+                    "aspInstances": {
+                        "value": "[parameters('appServicePlanInstances')]"
+                    },
+                    "aseHostingEnvironmentName": {
+                        "value": "[parameters('aseHostingEnvironmentName')]"
+                    },
+                    "aseResourceGroup": {
+                        "value": "[parameters('aseResourceGroup')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "providerPortalCosmosSQL",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'cosmos-db.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "cosmosDbName": {
+                        "value": "[variables('cosmosDbSQLName')]"
+                    },
+                    "cosmosApiType": {
+                        "value": "SQL"
+                    },
+                    "defaultConsistencyLevel": {
+                        "value": "Eventual"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "providerPortalCosmosSQLdatabase",
+            "type": "Microsoft.Resources/deployments",
+            "dependsOn": [
+                "providerPortalCosmosSQL"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'CosmosDb/cosmos-database.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "accountName": {
+                        "value": "[variables('cosmosDbSQLName')]"
+                    },
+                    "databaseName": {
+                        "value": "providerportal"
+                    },
+                    "databaseNeedsCreation": {
+                        "value": false
+                    },
+                    "useSharedRequestUnits": {
+                        "value": false
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "providerPortalSearch",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'azure-search.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "azureSearchName": {
+                        "value": "[variables('azureSearchName')]"
+                    },
+                    "azureSearchSku": {
+                        "value": "standard"
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "storageConnectionString": {
+            "type": "string",
+            "value": "[reference('courseDirectoryStorage').outputs.storageConnectionString.value]"
+        },
+        "appServicePlanName": {
+            "type": "string",
+            "value": "[variables('appServicePlanName')]"
+        },
+        "appServiceName": {
+            "type": "string",
+            "value": "[variables('appServiceName')]"
+        },
+        "cosmosDbSQLName": {
+            "type": "string",
+            "value": "[variables('cosmosDbSQLName')]"
+        },
+        "azureSearchName": {
+            "type": "string",
+            "value": "[variables('azureSearchName')]"
+        }
+    }
+}

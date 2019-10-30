@@ -20,13 +20,19 @@ jobs:
 #Publish templates
 - job: BuildDotNetCore
   displayName: Build-DotNetCore
+  dependsOn: TestArmTemplate
   pool:
     name: DAS - Continuous Deployment
 
   steps:
-   - task: PublishBuildArtifacts@1
-     displayName: 'Publish Artifact: Azure'
-     inputs:
-       pathtoPublish: $(ArmTemplateRoot)
-       artifactName: Azure
-       publishLocation: container
+  - task: CopyFiles@2
+    displayName: 'Copy Arm Templates to Staging'
+    inputs:
+      SourceFolder: '$(ArmTemplateRoot)\'
+      TargetFolder: $(build.artifactstagingdirectory)/Azure/ArmTemplates  
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: Azure'
+    inputs:
+      pathtoPublish: $(build.artifactstagingdirectory)/Azure
+      artifactName: Azure
+      publishLocation: container

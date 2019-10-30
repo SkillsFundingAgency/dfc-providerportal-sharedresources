@@ -205,10 +205,6 @@
             "type": "string",
             "value": "[variables('appServicePlanName')]"
         },
-        "appInsightInstrumentationKey": {
-            "type": "string",
-            "value": "[reference('courseDirectoryAppInsights').outputs.InstrumentationKey.value]"
-        },
         "appServiceName": {
             "type": "string",
             "value": "[variables('appServiceName')]"

@@ -16,3 +16,17 @@ jobs:
 - template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
   parameters:
     ArmTemplateRoot: $(ArmTemplateRoot)
+
+#Publish templates
+- job: BuildDotNetCore
+  displayName: Build-DotNetCore
+  pool:
+    name: DAS - Continuous Deployment
+
+  steps:
+   - task: PublishBuildArtifacts@1
+     displayName: 'Publish Artifact: Azure'
+     inputs:
+       pathtoPublish: $(build.artifactstagingdirectory)
+       artifactName: Azure
+       publishLocation: container

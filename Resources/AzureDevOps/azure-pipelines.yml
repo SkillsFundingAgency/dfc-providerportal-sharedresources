@@ -12,20 +12,7 @@ resources:
 
 jobs:
 
-- job: BuildAndTestArmTemplate
-  displayName: BuildAndTestArmTemplate
-  pool:
-    name: Continuous Integration 02 - SSD - 160ACU
-    demands:
-    - msbuild
-    - visualstudio
-
-  steps:
-  - template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
-    parameters:
-      ArmTemplateRoot: $(ArmTemplateRoot)
-  - task: PublishBuildArtifacts@1
-    displayName: Publish Artifact
-    inputs:
-      pathtoPublish: $(Build.ArtifactStagingDirectory)
-      artifactName: AzureResources
+#Build and test resources
+- template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
+  parameters:
+    ArmTemplateRoot: $(ArmTemplateRoot)

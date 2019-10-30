@@ -27,6 +27,6 @@ jobs:
    - task: PublishBuildArtifacts@1
      displayName: 'Publish Artifact: Azure'
      inputs:
-       pathtoPublish: $(build.artifactstagingdirectory)
+       pathtoPublish: $(ArmTemplateRoot)
        artifactName: Azure
        publishLocation: container

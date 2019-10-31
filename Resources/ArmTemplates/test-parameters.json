@@ -27,7 +27,7 @@
             "value": ""
         },
         "dfcSharedResourceGroupName": {
-            "value": "dfc-foo-shared-rg"
+            "value": "dfc-test-template-rg"
         }
     }
 }

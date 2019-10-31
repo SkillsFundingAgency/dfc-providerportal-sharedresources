@@ -8,6 +8,12 @@
         "storageAccountName": {
             "value": "dfcfoocdstr"
         },
+        "apimProductDisplayName": {
+            "value": "Find a course"
+        },
+        "apimServiceName": {
+            "value": "dfc-foo-shared-apim"
+        },
         "appServicePlanInstances": {
             "value": 1
         },
@@ -19,6 +25,9 @@
         },
         "aseResourceGroup": {
             "value": ""
+        },
+        "dfcSharedResourceGroupName": {
+            "value": "dfc-test-template-rg"
         }
     }
 }

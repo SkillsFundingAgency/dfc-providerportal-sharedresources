@@ -8,6 +8,12 @@
         "storageAccountName": {
             "value": "__providerPortalStorgeAccName__"
         },
+        "apimProductDisplayName": {
+            "value": "__apiProductDisplayName__"
+        },
+        "apimServiceName": {
+            "value": "__apimServiceName__"
+        },
         "appServicePlanInstances": {
             "value": __aspInstances__
         },
@@ -19,6 +25,9 @@
         },
         "aseResourceGroup": {
             "value": "__aseResourceGroup__"
+        },
+        "dfcSharedResourceGroupName": {
+            "value": "__SharedResourceGroupName__"
         }
     }
 }

@@ -14,6 +14,15 @@
                 "description": "Name of the project storage account (as it follows a different naming convention)"
             }
         },
+        "apimProductDisplayName": {
+            "type": "string"
+        },
+        "apimServiceName": {
+            "type": "string",
+            "metadata": {
+                "description": "APIM name"
+            }
+        },
         "appServicePlanSize": {
             "type": "string",
             "defaultValue": "1",
@@ -45,6 +54,12 @@
             "defaultValue": "",
             "metadata": {
                 "description": "Resource group the App Service Environment belongs to - only required if aseHostingEnvironmentName specified"
+            }
+        },
+        "dfcSharedResourceGroupName": {
+            "type": "string",
+            "metadata": {
+                "description": "The Resource Group that contains shared DFC resource, eg APIM, ASE, etc"
             }
         }
     },
@@ -119,6 +134,30 @@
                     },
                     "aseResourceGroup": {
                         "value": "[parameters('aseResourceGroup')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "pprefdataApimProduct",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "resourceGroup": "[parameters('dfcSharedResourceGroupName')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'APIM/apim-product.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "allowAnonymousAccess": {
+                        "value": false
+                    },
+                    "apimServiceName": {
+                        "value": "[parameters('apimServiceName')]"
+                    },
+                    "productDisplayName": {
+                        "value": "[parameters('apimProductDisplayName')]"
                     }
                 }
             }

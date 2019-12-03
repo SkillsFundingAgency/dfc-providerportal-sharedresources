@@ -31,6 +31,11 @@ jobs:
     inputs:
       SourceFolder: '$(ArmTemplateRoot)\'
       TargetFolder: $(build.artifactstagingdirectory)/Azure/ArmTemplates  
+  - task: CopyFiles@2
+    displayName: 'Copy APIM Policy to Staging'
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\Resources\ApimPolicy'
+      TargetFolder: $(build.artifactstagingdirectory)/Azure/ApimPolicy  
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: $(SolutionBaseName)'
     inputs:

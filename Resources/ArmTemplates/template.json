@@ -139,7 +139,7 @@
             }
         },
         {
-            "name": "pprefdataApimLogger",
+            "name": "publishToCourseDirectoryApimLogger",
             "type": "Microsoft.Resources/deployments",
             "resourceGroup": "[parameters('dfcSharedResourceGroupName')]",
             "apiVersion": "2017-05-10",
@@ -160,7 +160,7 @@
             }
         },  
         {
-            "name": "pprefdataApimProduct",
+            "name": "publishToCourseDirectoryApimProduct",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
             "resourceGroup": "[parameters('dfcSharedResourceGroupName')]",

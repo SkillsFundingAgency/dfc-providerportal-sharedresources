@@ -9,7 +9,7 @@
             "value": "__providerPortalStorgeAccName__"
         },
         "apimProductDisplayName": {
-            "value": "__apiProductDisplayName__"
+            "value": "__internalApiProductDisplayName__"
         },
         "apimServiceName": {
             "value": "__apimServiceName__"

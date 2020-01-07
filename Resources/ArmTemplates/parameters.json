@@ -28,6 +28,12 @@
         },
         "dfcSharedResourceGroupName": {
             "value": "__SharedResourceGroupName__"
+        },
+        "searchReplicaCount": {
+            "value": __searchReplicaCount__
+        },
+        "searchPartitionCount": {
+            "value": __searchPartitionCount__
         }
     }
 }

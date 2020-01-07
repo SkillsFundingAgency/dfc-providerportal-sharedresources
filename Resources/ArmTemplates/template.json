@@ -61,6 +61,18 @@
             "metadata": {
                 "description": "The Resource Group that contains shared DFC resource, eg APIM, ASE, etc"
             }
+        },
+        "searchReplicaCount": {
+            "type": "int",
+            "metadata": {
+                "description": "the number of search replicas to create"
+            }
+        },
+        "searchPartitionCount": {
+            "type": "int",
+            "metadata": {
+                "description": "the number of search partitions to create"
+            }
         }
     },
     "variables": {
@@ -251,6 +263,12 @@
                     },
                     "azureSearchSku": {
                         "value": "standard"
+                    },
+                    "azureSearchReplicaCount": {
+                        "value": "[parameters('searchReplicaCount')]"
+                    },
+                    "azureSearchPartitionCount": {
+                        "value": "[parameters('searchPartitionCount')]"
                     }
                 }
             }

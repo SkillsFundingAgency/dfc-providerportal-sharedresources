@@ -28,6 +28,12 @@
         },
         "dfcSharedResourceGroupName": {
             "value": "dfc-test-template-rg"
+        },
+        "searchReplicaCount": {
+            "value": 1
+        },
+        "searchPartitionCount": {
+            "value": 1
         }
     }
 }

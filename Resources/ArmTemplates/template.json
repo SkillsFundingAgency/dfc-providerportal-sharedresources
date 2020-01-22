@@ -310,6 +310,29 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'ServiceBus/servicebus-queue.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "serviceBusNamespaceName": {
+                        "value": "[variables('azureServiceBusNamespace')]"
+                    },
+                    "queueName": {
+                        "value": "[variables('fatProcessorQueueName')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "providerPortalServiceBusFatProcessorQueueAuth",
+            "type": "Microsoft.Resources/deployments",
+            "dependsOn": [
+                "providerPortalServiceBusFatProcessorQueue"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
                     "uri": "[concat(variables('deploymentUrlBase'),'ServiceBus/servicebus-queue-authrule.json')]",
                     "contentVersion": "1.0.0.0"
                 },

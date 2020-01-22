@@ -287,7 +287,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('deploymentUrlBase'),'ServiceBus/servicebus-namespace.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'),'servicebus-namespace.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -310,7 +310,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('deploymentUrlBase'),'servicebus-queue-authrule.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'),'ServiceBus/servicebus-queue-authrule.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {

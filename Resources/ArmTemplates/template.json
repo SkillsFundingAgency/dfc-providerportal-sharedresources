@@ -2,6 +2,9 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "environment": {
+            "type": "string"
+        },
         "projectPrefix": {
             "type": "string",
             "metadata": {
@@ -76,12 +79,16 @@
         }
     },
     "variables": {
+        "productionEnvironment": "[contains(createArray('OAT', 'PP', 'PRD'), parameters('Environment'))]",
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "appServiceName": "[concat(parameters('projectPrefix'),'-as')]",
         "appServicePlanName": "[concat(parameters('projectPrefix'),'-shared-asp')]",
         "blobStorageSettingsContainerName": "provider-files",
         "cosmosDbSQLName": "[concat(parameters('projectPrefix'),'-cdb')]",
-        "azureSearchName": "[concat(parameters('projectPrefix'),'-sch')]"
+        "azureSearchName": "[concat(parameters('projectPrefix'),'-sch')]",
+        "azureServiceBusNamespace": "[concat(parameters('projectPrefix'),'-ns')]",
+        "azureServicebusSku": "[if(variables('productionEnvironment'), 'Premium', 'Standard')]",
+        "fatProcessorQueueName": "fat-processor"
     },
     "resources": [
         {
@@ -269,6 +276,59 @@
                     },
                     "azureSearchPartitionCount": {
                         "value": "[parameters('searchPartitionCount')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "providerPortalServiceBusNamespace",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'ServiceBus/servicebus-namespace.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "serviceBusNamespaceName": {
+                        "value": "[variables('azureServiceBusNamespace')]"
+                    },
+                    "serviceBusSku": {
+                        "value": "[variables('azureServicebusSku')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "providerPortalServiceBusFatProcessorQueue",
+            "type": "Microsoft.Resources/deployments",
+            "dependsOn": [
+                "providerPortalServiceBusNamespace"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'servicebus-queue-authrule.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "authorizationRuleName": {
+                        "value": "[concat('monitor-', variables('fatProcessorQueueName'))]"
+                    },
+                    "queueName": {
+                        "value": "[variables('fatProcessorQueueName')]"
+                    },
+                    "rights": {
+                        "value": [
+                            "manage",
+                            "listen",
+                            "send"
+                        ]
+                    },
+                    "servicebusName": {
+                        "value": "[variables('azureServiceBusNamespace')]"
                     }
                 }
             }

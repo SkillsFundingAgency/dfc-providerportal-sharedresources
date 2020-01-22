@@ -317,7 +317,7 @@
                     "serviceBusNamespaceName": {
                         "value": "[variables('azureServiceBusNamespace')]"
                     },
-                    "serviceBusQueueName": {
+                    "queueName": {
                         "value": "[variables('fatProcessorQueueName')]"
                     }
                 }

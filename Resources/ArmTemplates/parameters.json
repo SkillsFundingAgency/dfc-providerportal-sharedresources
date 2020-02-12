@@ -11,8 +11,11 @@
         "storageAccountName": {
             "value": "__providerPortalStorgeAccName__"
         },
-        "apimProductDisplayName": {
+        "apimInternalProductName": {
             "value": "__internalApiProductDisplayName__"
+        },
+        "apimExternalProductName": {
+            "value": "__externalApiProductDisplayName__"
         },
         "apimServiceName": {
             "value": "__apimServiceName__"

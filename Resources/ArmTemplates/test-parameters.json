@@ -11,7 +11,10 @@
         "storageAccountName": {
             "value": "dfcfoocdstr"
         },
-        "apimProductDisplayName": {
+        "apimInternalProductName": {
+            "value": "Publish to the Course Directory"
+        },
+        "apimExternalProductName": {
             "value": "Find a course"
         },
         "apimServiceName": {

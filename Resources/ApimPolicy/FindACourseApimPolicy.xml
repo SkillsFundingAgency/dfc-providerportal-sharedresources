@@ -4,6 +4,9 @@
     <rate-limit calls="900" renewal-period="60" />
   </inbound>
   <backend>
+    <retry condition="@(context.Response.StatusCode == 503)" count="15" interval="1">
+        <forward-request />
+    </retry>  
   </backend>
   <outbound>
     <base />

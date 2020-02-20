@@ -2,6 +2,9 @@ variables:
     ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
     SolutionBaseName: 'DFC.CourseDirectory.SharedResources'
 
+pool:
+  name: NCS - CI and CD
+
 resources:
   repositories:
   - repository: self

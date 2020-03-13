@@ -17,6 +17,9 @@
         "apimExternalProductName": {
             "value": "__externalApiProductDisplayName__"
         },
+        "apimFindAnApprenticeshipProductName": {
+            "value": "__findAnApprenticeshipApiProductDisplayName__"
+        },
         "apimServiceName": {
             "value": "__apimServiceName__"
         },

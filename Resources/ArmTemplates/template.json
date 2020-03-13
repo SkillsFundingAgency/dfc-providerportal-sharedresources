@@ -23,6 +23,9 @@
         "apimExternalProductName": {
             "type": "string"
         },
+        "apimFindAnApprenticeshipProductName": {
+            "type": "string"
+        },
         "apimServiceName": {
             "type": "string",
             "metadata": {
@@ -246,6 +249,51 @@
                     },
                     "productDisplayName": {
                         "value": "[parameters('apimExternalProductName')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "findAnApprenticeshipApimLogger",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('dfcSharedResourceGroupName')]",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'APIM/apim-logger.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "apimServiceName": {
+                        "value": "[parameters('apimServiceName')]"
+                    },
+                    "productDisplayName": {
+                        "value": "[parameters('apimFindAnApprenticeshipProductName')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "findAnApprenticeshipApimProduct",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "resourceGroup": "[parameters('dfcSharedResourceGroupName')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'), 'APIM/apim-product.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "allowAnonymousAccess": {
+                        "value": true
+                    },
+                    "apimServiceName": {
+                        "value": "[parameters('apimServiceName')]"
+                    },
+                    "productDisplayName": {
+                        "value": "[parameters('apimFindAnApprenticeshipProductName')]"
                     }
                 }
             }

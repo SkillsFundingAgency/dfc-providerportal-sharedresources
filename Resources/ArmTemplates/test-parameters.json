@@ -17,6 +17,9 @@
         "apimExternalProductName": {
             "value": "Find a course"
         },
+        "apimFindAnApprenticeshipProductName": {
+            "value": "Find an Apprenticeship"
+        },
         "apimServiceName": {
             "value": "dfc-foo-shared-apim"
         },

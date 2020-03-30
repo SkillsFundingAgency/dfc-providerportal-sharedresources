@@ -82,6 +82,18 @@
             "metadata": {
                 "description": "the number of search partitions to create"
             }
+        },
+        "redisSkuName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the tier for redis cache."
+            }
+        },
+        "redisCapacity": {
+            "type": "int",
+            "metadata": {
+                "description": "The size of the redis cache instance"
+            }
         }
     },
     "variables": {
@@ -91,6 +103,7 @@
         "appServicePlanName": "[concat(parameters('projectPrefix'),'-shared-asp')]",
         "cosmosDbSQLName": "[concat(parameters('projectPrefix'),'-cdb')]",
         "azureSearchName": "[concat(parameters('projectPrefix'),'-sch')]",
+        "redisCacheName": "[concat(parameters('projectPrefix'), '-redis')]",
         "azureServiceBusNamespace": "[concat(parameters('projectPrefix'),'-ns')]",
         "azureServicebusSku": "[if(variables('productionEnvironment'), 'Premium', 'Standard')]",
         "fatProcessorQueueName": "fat-processor",
@@ -458,6 +471,29 @@
                     },
                     "servicebusName": {
                         "value": "[variables('azureServiceBusNamespace')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "providerPortalRedisCache",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'redis.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "redisName": {
+                        "value": "[variables('redisCacheName')]"
+                    },
+                    "redisSkuName": {
+                        "value": "[parameters('redisSkuName')]"
+                    },
+                    "redisCapacity": {
+                        "value": "[parameters('redisCapacity')]"
                     }
                 }
             }

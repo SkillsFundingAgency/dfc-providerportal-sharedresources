@@ -43,6 +43,12 @@
         },
         "searchPartitionCount": {
             "value": __searchPartitionCount__
+        },
+        "redisSkuName": {
+            "value": "__redisSkuName__"
+        },
+        "redisCapacity": {
+            "value": __redisCapacity__
         }
     }
 }

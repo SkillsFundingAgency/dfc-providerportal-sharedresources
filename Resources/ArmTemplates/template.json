@@ -492,7 +492,9 @@
                     "redisSkuName": {
                         "value": "[parameters('redisSkuName')]"
                     },
-                    "redisCapacity": "[parameters('redisCapacity')]"
+                    "redisCapacity": {
+                        "value": "[parameters('redisCapacity')]"
+                    }
                 }
             }
         }

@@ -109,7 +109,8 @@
         "fatProcessorQueueName": "fat-processor",
         "storageContainers": [
             "provider-files",
-            "data-protection-keys"
+            "data-protection-keys",
+            "faoc-files"
         ]
     },
     "resources": [

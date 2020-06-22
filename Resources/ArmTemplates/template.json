@@ -100,7 +100,7 @@
         "productionEnvironment": "[contains(createArray('OAT', 'PP', 'PRD'), parameters('Environment'))]",
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "appServiceName": "[concat(parameters('projectPrefix'),'-as')]",
-        "appServicePlanName": "[concat(parameters('projectPrefix'),'-asp')]",
+        "appServicePlanName": "[if(variables('productionEnvironment'), concat(parameters('projectPrefix'),'-shared-asp'), concat(parameters('projectPrefix'),'-asp'))]",
         "cosmosDbSQLName": "[concat(parameters('projectPrefix'),'-cdb')]",
         "azureSearchName": "[concat(parameters('projectPrefix'),'-sch')]",
         "redisCacheName": "[concat(parameters('projectPrefix'), '-redis')]",

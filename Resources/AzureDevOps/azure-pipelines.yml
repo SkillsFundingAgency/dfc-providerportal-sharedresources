@@ -25,8 +25,6 @@ jobs:
 - job: BuildDotNetCore
   displayName: Build-DotNetCore
   dependsOn: TestArmTemplate
-  pool:
-    name: DAS - Continuous Deployment
 
   steps:
   - task: CopyFiles@2

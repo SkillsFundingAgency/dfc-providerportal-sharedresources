@@ -101,7 +101,6 @@
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "appServiceName": "[concat(parameters('projectPrefix'),'-as')]",
         "appServicePlanName": "[concat(parameters('projectPrefix'),'-shared-asp')]",
-        "cosmosDbSQLName": "[concat(parameters('projectPrefix'),'-cdb')]",
         "azureSearchName": "[concat(parameters('projectPrefix'),'-sch')]",
         "redisCacheName": "[concat(parameters('projectPrefix'), '-redis')]",
         "azureServiceBusNamespace": "[concat(parameters('projectPrefix'),'-ns')]",
@@ -325,58 +324,6 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "providerPortalCosmosSQL",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('deploymentUrlBase'),'cosmos-db.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "cosmosDbName": {
-                        "value": "[variables('cosmosDbSQLName')]"
-                    },
-                    "cosmosApiType": {
-                        "value": "SQL"
-                    },
-                    "defaultConsistencyLevel": {
-                        "value": "Eventual"
-                    }
-                }
-            }
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "providerPortalCosmosSQLdatabase",
-            "type": "Microsoft.Resources/deployments",
-            "dependsOn": [
-                "providerPortalCosmosSQL"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('deploymentUrlBase'),'CosmosDb/cosmos-database.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "accountName": {
-                        "value": "[variables('cosmosDbSQLName')]"
-                    },
-                    "databaseName": {
-                        "value": "providerportal"
-                    },
-                    "databaseNeedsCreation": {
-                        "value": false
-                    },
-                    "useSharedRequestUnits": {
-                        "value": false
-                    }
-                }
-            }
-        },
-        {
-            "apiVersion": "2017-05-10",
             "name": "providerPortalSearch",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -513,10 +460,6 @@
         "appServiceName": {
             "type": "string",
             "value": "[variables('appServiceName')]"
-        },
-        "cosmosDbSQLName": {
-            "type": "string",
-            "value": "[variables('cosmosDbSQLName')]"
         },
         "azureSearchName": {
             "type": "string",

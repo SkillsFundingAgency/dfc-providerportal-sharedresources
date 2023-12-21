@@ -94,6 +94,12 @@
             "metadata": {
                 "description": "The size of the redis cache instance"
             }
+        },
+        "workspaceName": {
+            "type": "string"
+        },
+        "workspaceResourceGroup": {
+            "type": "string"
         }
     },
     "variables": {
@@ -204,6 +210,12 @@
                     },
                     "productDisplayName": {
                         "value": "[parameters('apimInternalProductName')]"
+                    },
+                    "workspaceName": {
+                        "value": "[parameters('workspaceName')]"
+                    },
+                    "workspaceResourceGroup": {
+                        "value": "[parameters('workspaceResourceGroup')]"
                     }
                 }
             }

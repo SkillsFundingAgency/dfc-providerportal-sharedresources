@@ -49,6 +49,12 @@
         },
         "redisCapacity": {
             "value": 0
+        },
+        "workspaceName": {
+            "value": "aTestLogAnalyticsAccount"
+        },
+        "workspaceResourceGroup": {
+            "value": "aResourceGroup"
         }
     }
 }
